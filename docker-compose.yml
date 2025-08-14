@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  optimizer-api:
+    build: .
+    ports:
+      - "8000:8000"
+    command: uvicorn services.optimizer.main:app --host 0.0.0.0 --port 8000 --reload
+  dashboard:
+    build: .
+    depends_on:
+      - optimizer-api
+    ports:
+      - "8501:8501"
+    command: streamlit run dashboard/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
